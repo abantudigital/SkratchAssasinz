@@ -1,14 +1,14 @@
 {
   "name": "dj_dougie_doug",
   "version": "1.0.0",
-  "description": "Professional website for DJ Dougie Doug",
+  "description": "DJ Dougie Doug professional website",
   "main": "server.js",
   "scripts": {
     "start": "node server",
     "server": "nodemon server"
   },
   "author": "Tony Onserio Momanyi",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "config": "^3.2.2",
