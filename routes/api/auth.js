@@ -1,4 +1,4 @@
-// (Login) Auth Route
+//! Auth Route
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
@@ -10,12 +10,24 @@ const { check, validationResult } = require("express-validator");
 // User model
 const User = require("../../models/User");
 
-//  @route  POST api/auth
-//  @desc   Authenticate User & get token (login user)
-//  @access Public
+// @route  GET api/auth
+// @desc   Load User
+// @access Public
+router.get("/", auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+//   @route  POST api/auth
+//   @desc   Authenticate User & get token (login user)
+//   @access Public
 router.post(
   "/",
-  auth,
   [
     check("email", "Please include a valid email").isEmail(),
     check("password", "Password is required").exists()
@@ -38,7 +50,7 @@ router.post(
           .json({ errors: [{ msg: "Invalid Credentials" }] });
       }
 
-      //  Match User Email & Passwrd:
+      //  Match User Email & Password:
       // .compare("plain txt password", "encrypted password")
       const isMatch = await bcrypt.compare(password, user.password);
 
@@ -62,7 +74,7 @@ router.post(
       jwt.sign(
         payload,
         config.get("jwtSecret"),
-        { expiresIn: 360000 }, //! EXPIRE BACK TO 3600 WHEN DEPLOYING APP
+        { expiresIn: "10h" },
         (err, token) => {
           if (err) throw err;
           res.json({ token });
@@ -76,16 +88,3 @@ router.post(
 );
 
 module.exports = router;
-
-//  @route  GET api/auth
-// @desc   Test route
-//  @access Private
-// router.get("/", auth, async (req, res) => {
-//   try {
-//     const user = await User.findById(req.user.id).select("-password");
-//     res.json(user);
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).send("Server Error");
-//   }
-// });
