@@ -1,15 +1,13 @@
-import React from "react";
+import React, { Fragment } from "react";
 import Navbar from "./Navbar";
 
 const Section2 = () => {
   return (
-    <div>
-      <div className="section-2  uk-section ">
-        <div className="uk-container ">
-          <h1>Section 2</h1>
-        </div>
+    <Fragment>
+      <div className="section-2">
+        <p>footer</p>
       </div>
-    </div>
+    </Fragment>
   );
 };
 

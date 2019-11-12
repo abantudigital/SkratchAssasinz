@@ -8,11 +8,15 @@ import Register from "./components/Auth/Register";
 import Contact from "./components/layout/Contact";
 import Alert from "./components/layout/Alert";
 import Dashboard from "./components/dashboard/Dashboard";
-import PrivateRoute from "./components/routing/PrivateRoute";
 import CreateProfile from "./components/profile-forms/CreateProfile";
 import EditProfile from "./components/profile-forms/EditProfile";
 import AddExperience from "./components/profile-forms/AddExperience";
 import AddEducation from "./components/profile-forms/AddEducation";
+import Profiles from "./components/profiles/Profiles";
+import Profile from "./components/profile/Profile";
+import Posts from "./components/posts/Posts";
+import PrivateRoute from "./components/routing/PrivateRoute";
+// import Footer from "./components/layout/Footer";
 
 //! REDUX
 import { Provider } from "react-redux";
@@ -36,14 +40,20 @@ const App = () => {
     <Provider store={store}>
       <Router>
         <Fragment>
-          <Navbar />
-          <Route exact path="/" component={Landing} />
-          <Route exact path="/contact" component={Contact} />
-          <section className="uk-container">
+          {/* <div className="ui container"> */}
+          <header>
+            <Navbar />
+          </header>
+          <section>
             <Alert />
             <Switch>
+              <Route exact path="/" component={Landing} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
+              <Route exact path="/profiles" component={Profiles} />
+              <Route exact path="/profile/:id" component={Profile} />
+              <PrivateRoute exact path="/dashboard" component={Dashboard} />
+              <Route exact path="/contact" component={Contact} />
               <PrivateRoute
                 exact
                 path="/create-profile"
@@ -64,9 +74,11 @@ const App = () => {
                 path="/add-education"
                 component={AddEducation}
               />
-              <PrivateRoute exact path="/dashboard" component={Dashboard} />
+              <PrivateRoute exact path="/posts" component={Posts} />
             </Switch>
+            {/* <Footer /> */}
           </section>
+          {/* </div> */}
         </Fragment>
       </Router>
     </Provider>

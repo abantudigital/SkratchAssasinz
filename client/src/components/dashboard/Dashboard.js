@@ -19,24 +19,23 @@ const Dashboard = ({
     getCurrentProfile();
   }, [getCurrentProfile]);
 
-  const profileImg = (
-    <img
-      src={
-        "https://images.unsplash.com/photo-1542395118-9d95347995bc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=60"
-      }
-    />
-  );
+  // const profileImg = (
+  //   <img
+  //     src={
+  //       "https://images.unsplash.com/photo-1542395118-9d95347995bc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=60"
+  //     }
+  //   />
+  // );
 
   return loading && profile === null ? (
     <Spinner />
   ) : (
     <Fragment>
-      <h1 className="uk-heading-divider">Dashbaord</h1>
-
       {profile != null ? (
         <Fragment>
           <div className=" uk-card-secondary">
             <div className="uk-card-body">
+              <h1 className="uk-heading-divider">Dashbaord</h1>
               <p className="uk-text-lead">
                 <span uk-icon="icon: user"></span> Welcome {user && user.name}
               </p>

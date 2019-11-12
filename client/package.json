@@ -14,6 +14,7 @@
     "redux": "^4.0.4",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
+    "uikit": "^3.2.3-dev.b844c38bd",
     "uuid": "^3.3.3"
   },
   "scripts": {

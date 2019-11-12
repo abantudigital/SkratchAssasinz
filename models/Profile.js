@@ -1,11 +1,9 @@
-// PROFILE MODEL
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const ProfileSchema = new mongoose.Schema({
-  // Profile fields
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "user"
+    ref: 'user'
   },
   company: {
     type: String
@@ -30,7 +28,6 @@ const ProfileSchema = new mongoose.Schema({
   githubusername: {
     type: String
   },
-  // "EXPERIENCES" field with an array of other fields
   experience: [
     {
       title: {
@@ -60,7 +57,6 @@ const ProfileSchema = new mongoose.Schema({
       }
     }
   ],
-  // "EDUCATION" field with an array of other fields
   education: [
     {
       school: {
@@ -91,7 +87,6 @@ const ProfileSchema = new mongoose.Schema({
       }
     }
   ],
-  // "SOCIAL" an object of other fields. Links to their social media pages
   social: {
     youtube: {
       type: String
@@ -109,11 +104,10 @@ const ProfileSchema = new mongoose.Schema({
       type: String
     }
   },
-  // Current date
   date: {
     type: Date,
     default: Date.now
   }
 });
 
-module.exports = Profile = mongoose.model("profile", ProfileSchema);
+module.exports = Profile = mongoose.model('profile', ProfileSchema);
