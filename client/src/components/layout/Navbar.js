@@ -1,119 +1,85 @@
-// Navbar
-import React, { Fragment } from "react";
+//! NAVBAR.JS
+import React, { Component, useState, Fragment } from "react";
+import { Menu, Segment, Icon, ItemGroup, List } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 import { logout } from "../../actions/auth";
+import PropTypes from "prop-types";
 
 const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
+  const [activeItem, setActiveItem] = useState("home");
+
   const authLinks = (
-    <div>
-      <ul className="uk-navbar-nav">
-        <li>
-          <Link to="/dashboard">Dashboard</Link>
-        </li>
-        <li>
-          <Link to="/profiles">DJs</Link>
-        </li>
-        <li>
-          <Link to="/posts">Posts</Link>
-        </li>
-        <li>
-          <a className="ui red button" onClick={logout} href="#!">
-            logout
-          </a>
-        </li>
-      </ul>
-    </div>
+    <Fragment>
+      <Menu.Item
+        // icon="logout"
+        as={Link}
+        to="/dashboard"
+        name="Dashboard"
+        // active={activeItem === "logout"}
+        // onClick={logout}
+      />
+      <Menu.Item
+        icon="logout"
+        as={Link}
+        to="#!"
+        name="Logout"
+        active={activeItem === "logout"}
+        onClick={logout}
+      />
+    </Fragment>
   );
 
   const guestLinks = (
-    <div>
-      <ul className="uk-navbar-nav">
-        <li>
-          <Link to="/profiles">DJs</Link>
-        </li>
-        <li>
-          <Link to="/register">Register</Link>
-        </li>
+    <Fragment>
+      <Menu.Item
+        as={Link}
+        to="#!"
+        name="DJs"
+        active={activeItem === "DJs"}
+        onClick={() => setActiveItem("DJ'S")}
+      />
 
-        <li>
-          <Link to="/login">Login</Link>
-        </li>
-      </ul>
-    </div>
+      <Menu.Item
+        as={Link}
+        to="/register"
+        name="Register"
+        // icon="register"
+        active={activeItem === "Register"}
+        onClick={() => setActiveItem("Register")}
+      />
+
+      <Menu.Item
+        as={Link}
+        to="/login"
+        name="Login"
+        // Icon="login"
+        active={activeItem === "Login"}
+        onClick={() => setActiveItem("Login")}
+      />
+    </Fragment>
   );
 
   return (
-    <Fragment>
-      <nav
-        className="uk-navbar-container"
-        uk-sticky="bottom: #offset"
-        uk-navbar="true"
-      >
-        <div className="uk-navbar-left">
-          <ul className="uk-navbar-nav">
-            <li className="uk-active">
-              <Link className="" to="/">
-                Home
-              </Link>
-            </li>
-            <li>
-              <a href="#!">Music</a>
-              <div className="uk-navbar-dropdown">
-                <ul className="uk-nav uk-navbar-dropdown-nav">
-                  <li className="uk-active">
-                    <a href="#!">Active</a>
-                  </li>
-                  <li>
-                    <a href="#!">Item</a>
-                  </li>
-                  <li>
-                    <a href="#!">Item</a>
-                  </li>
-                </ul>
-              </div>
-            </li>
-          </ul>
-        </div>
+    <Segment inverted>
+      <Menu inverted pointing secondary>
+        <Menu.Item
+          as={Link}
+          to="/"
+          icon={{
+            name: "home",
+            size: "large"
+          }}
+          active={activeItem === "home"}
+          onClick={() => setActiveItem("home")}
+        />
 
-        <div className="uk-navbar-right">
-          <ul className="uk-navbar-nav">
-            <li className="uk-active">
-              <a className="">
-                {!loading && (
-                  <Fragment>
-                    {" "}
-                    {isAuthenticated ? authLinks : guestLinks}{" "}
-                  </Fragment>
-                )}
-              </a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-      {/* <div className="uk-navbar-container uk-navbar-primary" uk-navbar="true">
-        <div className="uk-navbar-left">
-          <a className="uk-navbar-nav">
-            <Link className="" to="/">
-              Home
-            </Link>
-          </a>
-          <a className=" ">
-            <Link className="" to="/contact">
-              Contact
-            </Link>
-          </a>
-        </div>
-        <div className="uk-navbar-right">
-          <a className="">
-            {!loading && (
-              <Fragment> {isAuthenticated ? authLinks : guestLinks} </Fragment>
-            )}
-          </a>
-        </div>
-      </div> */}
-    </Fragment>
+        {/* FLOAT MENU RIGHT */}
+        {!loading && (
+          <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
+        )}
+      </Menu>
+    </Segment>
   );
 };
 
@@ -126,7 +92,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(
-  mapStateToProps,
-  { logout }
-)(Navbar);
+export default connect(mapStateToProps, { logout })(Navbar);

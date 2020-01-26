@@ -1,32 +1,34 @@
-//! APP.JS
 import React, { Fragment, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Navbar from "./components/layout/Navbar";
+import { createBrowserHistory } from "history";
+import Login from "./components/auth/Login";
+import Register from "./components/auth/Register";
 import Landing from "./components/layout/Landing";
-import Login from "./components/Auth/Login";
-import Register from "./components/Auth/Register";
-import Contact from "./components/layout/Contact";
-import Alert from "./components/layout/Alert";
+import CreateForm from "./components/profile-form/CreateProfile";
 import Dashboard from "./components/dashboard/Dashboard";
-import CreateProfile from "./components/profile-forms/CreateProfile";
-import EditProfile from "./components/profile-forms/EditProfile";
-import AddExperience from "./components/profile-forms/AddExperience";
-import AddEducation from "./components/profile-forms/AddEducation";
-import Profiles from "./components/profiles/Profiles";
-import Profile from "./components/profile/Profile";
-import Posts from "./components/posts/Posts";
 import PrivateRoute from "./components/routing/PrivateRoute";
-// import Footer from "./components/layout/Footer";
+import Navbar from "./components/layout/Navbar";
+import Alert from "./components/layout/Alert";
+import { loadUser } from "./actions/auth";
+import setAuthToken from "./utils/setAuthToken";
+import {
+  Container,
+  Button,
+  Form,
+  Grid,
+  Header,
+  Image,
+  Message,
+  Segment
+} from "semantic-ui-react";
 
 //! REDUX
 import { Provider } from "react-redux";
 import store from "./store";
-import { loadUser } from "./actions/auth";
-import setAuthToken from "./utils/setAuthToken";
 
 import "./App.css";
+import "semantic-ui-css/semantic.min.css";
 
-//! Authenticate token
 if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
@@ -35,54 +37,33 @@ const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
   }, []);
-
   return (
     <Provider store={store}>
       <Router>
-        <Fragment>
-          {/* <div className="ui container"> */}
-          <header>
-            <Navbar />
-          </header>
+        <div className="App">
+          <Navbar />
+          <Route exact path="/" component={Landing} />
           <section>
+            {/* <Container> */}
             <Alert />
             <Switch>
-              <Route exact path="/" component={Landing} />
-              <Route exact path="/register" component={Register} />
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/profiles" component={Profiles} />
-              <Route exact path="/profile/:id" component={Profile} />
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
-              <Route exact path="/contact" component={Contact} />
               <PrivateRoute
                 exact
                 path="/create-profile"
-                component={CreateProfile}
+                component={CreateForm}
               />
-              <PrivateRoute
-                exact
-                path="/edit-profile"
-                component={EditProfile}
-              />
-              <PrivateRoute
-                exact
-                path="/add-experience"
-                component={AddExperience}
-              />
-              <PrivateRoute
-                exact
-                path="/add-education"
-                component={AddEducation}
-              />
-              <PrivateRoute exact path="/posts" component={Posts} />
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/login" component={Login} />
             </Switch>
-            {/* <Footer /> */}
+            {/* </Container> */}
           </section>
-          {/* </div> */}
-        </Fragment>
+        </div>
       </Router>
     </Provider>
   );
 };
 
 export default App;
+
+//! "Switch" can only have routes in it

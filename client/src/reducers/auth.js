@@ -1,4 +1,4 @@
-// AUTH REDUCERS
+// AUTH REDUCER
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -6,10 +6,10 @@ import {
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  LOG_OUT,
-  ACCOUNT_DELETED
+  LOGOUT
 } from "../actions/types";
 
+// Auth State
 const initialState = {
   token: localStorage.getItem("token"),
   isAuthenticated: null,
@@ -28,7 +28,6 @@ export default function(state = initialState, action) {
         loading: false,
         user: payload
       };
-
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
       localStorage.setItem("token", payload.token);
@@ -38,11 +37,11 @@ export default function(state = initialState, action) {
         isAuthenticated: true,
         loading: false
       };
+
     case REGISTER_FAIL:
     case AUTH_ERROR:
     case LOGIN_FAIL:
-    case LOG_OUT:
-    case ACCOUNT_DELETED:
+    case LOGOUT:
       localStorage.removeItem("token");
       return {
         ...state,

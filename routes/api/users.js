@@ -27,6 +27,8 @@ router.post(
   ],
   async (req, res) => {
     const errors = validationResult(req);
+
+    // Back-End validation errors array response to req
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
@@ -79,7 +81,7 @@ router.post(
       jwt.sign(
         payload,
         config.get("jwtSecret"),
-        { expiresIn: 360000 }, //! EXPIRE BACK TO 3600 WHEN DEPLOYING APP
+        { expiresIn: 36000 }, //! EXPIRE BACK TO 3600 WHEN DEPLOYING APP
         (err, token) => {
           if (err) throw err;
           res.json({ token });

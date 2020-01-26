@@ -1,95 +1,101 @@
-// Dashboard
-import React, { Fragment, useEffect } from "react";
+// DASHBOARD
+import React, { useEffect, Fragment } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import Spinner from "../layout/Spinner";
-import DashboardActions from "./DashboardActions";
-import Experience from "./Experience";
-import Education from "./Education";
-import { getCurrentProfile, deleteAccount } from "../../actions/profile";
+import { getCurrentProfile } from "../../actions/profile";
+import { motion } from "framer-motion";
+import {
+  Image,
+  Button,
+  Loader,
+  Dimmer,
+  Segment,
+  Icon,
+  Header,
+  HeaderContent,
+  Card,
+  Grid,
+  Modal
+} from "semantic-ui-react";
+import HeaderSubHeader from "semantic-ui-react/dist/commonjs/elements/Header/HeaderSubheader";
 
 const Dashboard = ({
   getCurrentProfile,
-  deleteAccount,
   auth: { user },
   profile: { profile, loading }
 }) => {
   useEffect(() => {
     getCurrentProfile();
-  }, [getCurrentProfile]);
-
-  // const profileImg = (
-  //   <img
-  //     src={
-  //       "https://images.unsplash.com/photo-1542395118-9d95347995bc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=60"
-  //     }
-  //   />
-  // );
-
+  }, []);
   return loading && profile === null ? (
-    <Spinner />
+    <Dimmer active>
+      <Loader size="large" />
+    </Dimmer>
   ) : (
-    <Fragment>
-      {profile != null ? (
-        <Fragment>
-          <div className=" uk-card-secondary">
-            <div className="uk-card-body">
-              <h1 className="uk-heading-divider">Dashbaord</h1>
-              <p className="uk-text-lead">
-                <span uk-icon="icon: user"></span> Welcome {user && user.name}
-              </p>
-              <DashboardActions />
-              <Experience experience={profile.experience} />
-              <Education education={profile.education} />
-              <div className="uk-margin">
-                <button
-                  className="uk-button uk-button-danger"
-                  onClick={() => deleteAccount()}
-                >
-                  Delete My Account
-                </button>
-              </div>
-            </div>
-          </div>
-        </Fragment>
-      ) : (
-        <Fragment>
-          <div className="uk-card-hover uk-card-muted ">
-            <div className="uk-card-body dashbord-no-profile">
-              <p className="uk-text-lead">
-                <span uk-icon="icon: user"></span> Welcome {user && user.name}
-              </p>
-              <p>
-                Looks like you dont have a profile, it's easy as 1, 2...{" "}
-                <Link
-                  to="/create-profile"
-                  className="uk-text-large  uk-button-text"
-                >
-                  Create Profile
+    <Grid celled>
+      <Grid.Row>
+        <Grid.Column width={16}>
+          <Segment color="red" padded="very">
+            <Header>Dashboard</Header>
+            <HeaderSubHeader>Welcome {user && user.name}!</HeaderSubHeader>
+            {profile !== null ? (
+              <Fragment>has profile</Fragment>
+            ) : (
+              <Fragment>
+                <p>You have not created a profile, please add some info</p>
+                <Link to="/create-profile">
+                  <Button size="large" color="green" inverted>
+                    <Icon name="checkmark" /> Create Profile!
+                  </Button>
                 </Link>
-              </p>{" "}
-            </div>
-          </div>
-        </Fragment>
-      )}
-    </Fragment>
+              </Fragment>
+            )}
+          </Segment>
+        </Grid.Column>
+      </Grid.Row>
+
+      <Grid.Row>
+        <Grid.Column width={3}>
+          <Image src="https://react.semantic-ui.com/images/wireframe/image.png" />
+        </Grid.Column>
+        <Grid.Column width={10}>
+          <Image src="https://react.semantic-ui.com/images/wireframe/paragraph.png" />
+        </Grid.Column>
+        <Grid.Column width={3}>
+          <Image src="https://react.semantic-ui.com/images/wireframe/image.png" />
+        </Grid.Column>
+      </Grid.Row>
+    </Grid>
   );
 };
 
 Dashboard.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
-  deleteAccount: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
+  //? REDUX APP LEVEL STATES
+  //? authState, profileState, alertState
   auth: state.auth,
   profile: state.profile
 });
 
-export default connect(
-  mapStateToProps,
-  { getCurrentProfile, deleteAccount }
-)(Dashboard);
+export default connect(mapStateToProps, { getCurrentProfile })(Dashboard);
+
+// <Modal trigger={<Button>Basic Modal</Button>} basic size="small">
+//   <Header icon="archive" content="Archive Old Messages" />
+//   <Modal.Content>
+//     <p>You have not created a profile, please add some info</p>
+//   </Modal.Content>
+//   <Modal.Actions>
+//     <Button basic color="red" inverted>
+//       <Icon name="remove" /> stay your corny ass out
+//     </Button>
+//     <Button color="green" inverted>
+//       <Icon name="checkmark" /> Create Profile!
+//     </Button>
+//   </Modal.Actions>
+// </Modal>

@@ -1,13 +1,12 @@
-// REDUCERS
+// ROOT REDUCER
 import { combineReducers } from "redux";
 import alert from "./alert";
 import auth from "./auth";
 import profile from "./profile";
-import post from "./post";
 
+//? REDUX APP LEVEL STATES
 export default combineReducers({
   alert,
   auth,
-  profile,
-  post
+  profile
 });

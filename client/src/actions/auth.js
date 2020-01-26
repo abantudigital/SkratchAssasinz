@@ -1,6 +1,7 @@
-// AUTH ACTIONS
+// AUTH.JS ACTIONS
 import axios from "axios";
 import { setAlert } from "./alert";
+import setAuthToken from "../utils/setAuthToken";
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -8,12 +9,11 @@ import {
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  LOG_OUT,
+  LOGOUT,
   CLEAR_PROFILE
 } from "./types";
-import setAuthToken from "../utils/setAuthToken";
 
-//! ACTION: Load User
+// LOAD USER
 export const loadUser = () => async dispatch => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
@@ -33,7 +33,7 @@ export const loadUser = () => async dispatch => {
   }
 };
 
-//! ACTION: Register User
+// REGISTER USER (posting data to server)(await response)
 export const register = ({ name, email, password }) => async dispatch => {
   const config = {
     headers: {
@@ -56,7 +56,7 @@ export const register = ({ name, email, password }) => async dispatch => {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach(error => dispatch(setAlert(error.msg, "red")));
     }
 
     dispatch({
@@ -65,7 +65,7 @@ export const register = ({ name, email, password }) => async dispatch => {
   }
 };
 
-//! ACTION: Login User
+// LOGIN USER
 export const login = (email, password) => async dispatch => {
   const config = {
     headers: {
@@ -88,7 +88,7 @@ export const login = (email, password) => async dispatch => {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach(error => dispatch(setAlert(error.msg, "red")));
     }
 
     dispatch({
@@ -97,8 +97,8 @@ export const login = (email, password) => async dispatch => {
   }
 };
 
-//! Logout / Clear Profile
+// Logout/ Clear Profile
 export const logout = () => dispatch => {
   dispatch({ type: CLEAR_PROFILE });
-  dispatch({ type: LOG_OUT });
+  dispatch({ type: LOGOUT });
 };

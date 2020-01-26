@@ -1,4 +1,4 @@
-// SET AUTH TOKEN
+// SET AUTH TOKEN(adding global header)
 import axios from "axios";
 
 const setAuthToken = token => {
